@@ -26,9 +26,9 @@ from official.core import task_factory
 from official.core import train_lib
 from official.core import train_utils
 from official.modeling import performance
-from official.vision import registry_imports  # pylint: disable=unused-import
-from official.vision.utils import summary_manager
-
+# pylint: disable=unused-import
+from official.vision import registry_imports
+# pylint: enable=unused-import
 
 FLAGS = flags.FLAGS
 
@@ -53,17 +53,11 @@ def _run_experiment_with_preemption_recovery(params, model_dir):
           task=task,
           mode=FLAGS.mode,
           params=params,
-          model_dir=model_dir,
-          summary_manager=None,
-          eval_summary_manager=summary_manager.maybe_build_eval_summary_manager(
-              params=params, model_dir=model_dir
-          ),
-      )
+          model_dir=model_dir)
 
       keep_training = False
     except tf.errors.OpError as e:
       if preemption_watcher and preemption_watcher.preemption_message:
-        preemption_watcher.block_until_worker_exit()
         logging.info(
             'Some TPU workers had been preempted (message: %s), '
             'retarting training from the last checkpoint...',

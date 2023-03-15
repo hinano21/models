@@ -4,17 +4,16 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# ==============================================================================
+# ================================================= =============================
 
 r"""Creates and runs TF2 object detection models.
-
 For local training/evaluation run:
 PIPELINE_CONFIG_PATH=path/to/pipeline.config
 MODEL_DIR=/tmp/model_outputs
@@ -80,7 +79,7 @@ def main(unused_argv):
   if FLAGS.checkpoint_dir:
     model_lib_v2.eval_continuously(
         pipeline_config_path=FLAGS.pipeline_config_path,
-        model_dir=FLAGS.model_dir,
+        model_dir = FLAGS . model_dir ,
         train_steps=FLAGS.num_train_steps,
         sample_1_of_n_eval_examples=FLAGS.sample_1_of_n_eval_examples,
         sample_1_of_n_eval_on_train_examples=(
@@ -104,11 +103,11 @@ def main(unused_argv):
     with strategy.scope():
       model_lib_v2.train_loop(
           pipeline_config_path=FLAGS.pipeline_config_path,
-          model_dir=FLAGS.model_dir,
+          model_dir = FLAGS . model_dir ,
           train_steps=FLAGS.num_train_steps,
           use_tpu=FLAGS.use_tpu,
           checkpoint_every_n=FLAGS.checkpoint_every_n,
           record_summaries=FLAGS.record_summaries)
 
 if __name__ == '__main__':
-  tf.compat.v1.app.run()
+  tf.compat.v1.app.run ( )

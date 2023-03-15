@@ -30,7 +30,7 @@ from official.projects.yolo.modeling.layers import detection_generator
 
 class FactoryTest(tf.test.TestCase):
 
-  def test_yolo_builder(self):
+  def test_builder(self):
     num_classes = 3
     input_size = 640
     input_specs = tf.keras.layers.InputSpec(

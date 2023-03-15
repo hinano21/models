@@ -161,17 +161,11 @@ class DetectionModule(export_base.ExportModule):
     # To overcome keras.Model extra limitation to save a model with layers that
     # have multiple inputs, we use `model.call` here to trigger the forward
     # path. Note that, this disables some keras magics happens in `__call__`.
-    model_call_kwargs = {
-        'images': images,
-        'image_shape': input_image_shape,
-        'anchor_boxes': anchor_boxes,
-        'training': False,
-    }
-    if isinstance(self.params.task.model, configs.retinanet.RetinaNet):
-      model_call_kwargs['output_intermediate_features'] = (
-          self.params.task.export_config.output_intermediate_features
-      )
-    detections = self.model.call(**model_call_kwargs)
+    detections = self.model.call(
+        images=images,
+        image_shape=input_image_shape,
+        anchor_boxes=anchor_boxes,
+        training=False)
 
     if self.params.task.model.detection_generator.apply_nms:
       # For RetinaNet model, apply export_config.
@@ -215,18 +209,6 @@ class DetectionModule(export_base.ExportModule):
 
     if 'detection_masks' in detections.keys():
       final_outputs['detection_masks'] = detections['detection_masks']
-    if (
-        isinstance(self.params.task.model, configs.retinanet.RetinaNet)
-        and self.params.task.export_config.output_intermediate_features
-    ):
-      final_outputs.update(
-          {
-              k: v
-              for k, v in detections.items()
-              if k.startswith('backbone_') or k.startswith('decoder_')
-          }
-      )
 
-    if self.params.task.model.detection_generator.nms_version != 'tflite':
-      final_outputs.update({'image_info': image_info})
+    final_outputs.update({'image_info': image_info})
     return final_outputs

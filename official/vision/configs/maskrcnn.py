@@ -34,7 +34,6 @@ class Parser(hyperparams.Config):
   match_threshold: float = 0.5
   unmatched_threshold: float = 0.5
   aug_rand_hflip: bool = False
-  aug_rand_vflip: bool = False
   aug_scale_min: float = 1.0
   aug_scale_max: float = 1.0
   aug_type: Optional[
@@ -221,9 +220,6 @@ class MaskRCNNTask(cfg.TaskConfig):
   use_coco_metrics: bool = True
   # If set, the Waymo Open Dataset evaluator would be used.
   use_wod_metrics: bool = False
-  # If set, use instance metrics (AP, mask AP, etc.) computed by an efficient
-  # approximation algorithm with TPU compatible operations.
-  use_approx_instance_metrics: bool = False
 
   # If set, freezes the backbone during training.
   # TODO(crisnv) Add paper link when available.

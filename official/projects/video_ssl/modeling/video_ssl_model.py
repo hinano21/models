@@ -127,7 +127,8 @@ class VideoSSLModel(tf.keras.Model):
     # Projection head
     x = tf.keras.layers.Dense(projection_dim)(x)
 
-    super().__init__(inputs=inputs, outputs=x, **kwargs)
+    super(VideoSSLModel, self).__init__(
+        inputs=inputs, outputs=x, **kwargs)
 
   @property
   def checkpoint_items(self):

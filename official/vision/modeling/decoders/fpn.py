@@ -123,8 +123,7 @@ class FPN(tf.keras.Model):
           padding='same',
           kernel_initializer=kernel_initializer,
           kernel_regularizer=kernel_regularizer,
-          bias_regularizer=bias_regularizer,
-          name=f'lateral_{level}')(
+          bias_regularizer=bias_regularizer)(
               inputs[str(level)])
 
     # Build top-down path.
@@ -158,8 +157,7 @@ class FPN(tf.keras.Model):
           padding='same',
           kernel_initializer=kernel_initializer,
           kernel_regularizer=kernel_regularizer,
-          bias_regularizer=bias_regularizer,
-          name=f'post_hoc_{level}')(
+          bias_regularizer=bias_regularizer)(
               feats[str(level)])
 
     # TODO(fyangf): experiment with removing bias in conv2d.
@@ -175,17 +173,13 @@ class FPN(tf.keras.Model):
           padding='same',
           kernel_initializer=kernel_initializer,
           kernel_regularizer=kernel_regularizer,
-          bias_regularizer=bias_regularizer,
-          name=f'coarser_{level}')(
+          bias_regularizer=bias_regularizer)(
               feats_in)
 
     # Apply batch norm layers.
     for level in range(min_level, max_level + 1):
       feats[str(level)] = norm(
-          axis=bn_axis,
-          momentum=norm_momentum,
-          epsilon=norm_epsilon,
-          name=f'norm_{level}')(
+          axis=bn_axis, momentum=norm_momentum, epsilon=norm_epsilon)(
               feats[str(level)])
 
     self._output_specs = {
